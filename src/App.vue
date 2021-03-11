@@ -1,28 +1,30 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
-    <div>
-      <el-button @click="startHacking">Start</el-button>
-    </div>
+    <img src="./assets/logo.png">    
+    <card-slider />
   </div>
 </template>
 
 <script>
+import CardSlider from './components/card-slider'
+
 export default {
-  methods: {
-    startHacking () {
-      this.$notify({
-        title: 'It works!',
-        type: 'success',
-        message: 'We\'ve laid the ground work for you. It\'s time for you to build something epic!',
-        duration: 5000
-      })
-    }
+  components: {
+    CardSlider
   }
 }
 </script>
 
 <style>
+body {
+  background: #f5f5f5;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
 #app {
   font-family: Helvetica, sans-serif;
   text-align: center;

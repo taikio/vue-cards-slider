@@ -9,12 +9,17 @@
   },
   "dependencies": {
     "element-ui": "^2.3.4",
-    "vue": "^2.5.16"
+    "glider-js": "^1.7.6",
+    "vue": "^2.5.16",
+    "vue-class-component": "^7.2.6",
+    "vue-property-decorator": "^9.1.2"
   },
   "engines": {
     "node": ">=6"
   },
   "devDependencies": {
+    "@babel/plugin-proposal-class-properties": "^7.13.0",
+    "@babel/plugin-proposal-decorators": "^7.13.5",
     "autoprefixer": "^6.6.0",
     "babel-core": "^6.24.1",
     "babel-loader": "^6.4.0",
