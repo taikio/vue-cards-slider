@@ -1,25 +1,25 @@
 <template>
   <div class="glider-contain multiple">
-    <h1>Cards Slider Component</h1>
+    <h4>{{ title }}</h4>
 
-    <button class="glider-prev">
+    <button class="glider-prev" :id="`btn-prev-${uniqueId}`">
       <i class="el-icon-arrow-left" />
     </button>
 
-    <div class="glider" ref="glider">
-      <figure v-for="(i, index) in 10" :key="index">
+    <div class="glider" ref="glider" :id="uniqueId">
+      <figure v-for="(item, index) in itemsList" :key="index">
         <el-card class="box-card">
           <div slot="header">
-            <span>Card name - {{ i.toString() }}</span>            
+            <span>{{ item.title }}</span>            
           </div>
           <div>
-            This is the card body
+            {{ item.description }}
           </div>
         </el-card>
       </figure>      
     </div>
 
-    <button class="glider-next">
+    <button class="glider-next" :id="`btn-next-${uniqueId}`">
       <i class="el-icon-arrow-right" />
     </button>
 
@@ -34,58 +34,73 @@ import 'glider-js/glider.min.css';
 
 export default {
   name: 'card-slider',
+  props: {
+    itemsList: {
+      type: Array,
+      default: []
+    },
+    title: {
+      type: String,
+      defaul: ''
+    },
+    uniqueId: {
+      type: String,
+      default: ''
+    }
+  },
   data: () => ({
     $glider: null
   }),
   mounted () {
-    console.log('created', Glider)
-    // new window.Glider(document.querySelector('.glider'))
-    this.$glider = new Glider(document.querySelector('.glider'), {
-      slidesToShow: 3,
-      slidesToScroll: 1,
-      draggable: true,
-      // dots: '#dots',
-      arrows: {
-        prev: '.glider-prev',
-        next: '.glider-next'
-      },
-      responsive: [
-        {
-          breakpoint: 1750,
-          settings: {
-            slidesToShow: 5,
-            slidesToScroll: 1
-          }
+    this.$nextTick(function () {
+      // new window.Glider(document.querySelector('.glider'))
+      this.$glider = new Glider(document.getElementById(this.uniqueId), {
+        slidesToShow: 3,
+        slidesToScroll: 1,
+        draggable: true,
+        // dots: '#dots',
+        arrows: {
+          prev: `#btn-prev-${this.uniqueId}`,
+          next: `#btn-next-${this.uniqueId}`
         },
-        {
-          breakpoint: 1240,
-          settings: {
-            slidesToShow: 4,
-            slidesToScroll: 1
+        responsive: [
+          {
+            breakpoint: 1750,
+            settings: {
+              slidesToShow: 5,
+              slidesToScroll: 1
+            }
+          },
+          {
+            breakpoint: 1240,
+            settings: {
+              slidesToShow: 4,
+              slidesToScroll: 1
+            }
+          },
+          {
+            breakpoint: 1024,
+            settings: {
+              slidesToShow: 3,
+              slidesToScroll: 1
+            }
+          },
+          {
+            breakpoint: 900,
+            settings: {
+              slidesToShow: 2,
+              slidesToScroll: 1
+            }
+          },
+          {
+            breakpoint: 575,
+            settings: {
+              slidesToShow: 1,
+              slidesToScroll: 1
+            }
           }
-        },
-        {
-          breakpoint: 1024,
-          settings: {
-            slidesToShow: 3,
-            slidesToScroll: 1
-          }
-        },
-        {
-          breakpoint: 900,
-          settings: {
-            slidesToShow: 2,
-            slidesToScroll: 1
-          }
-        },
-        {
-          breakpoint: 575,
-          settings: {
-            slidesToShow: 1,
-            slidesToScroll: 1
-          }
-        }
-      ]
+        ]
+      })
     })
   },
   beforeDestroy() {
