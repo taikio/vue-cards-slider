@@ -3,6 +3,9 @@
     <!-- <img src="./assets/logo.png">     -->
     <h3 align="center" v-show="loading">Carregando...</h3>
     <div class="slider-container" v-show="!loading">
+      <h3>Teste de impressão em PDF</h3>
+      <button @click="visualizarImpressao()">Visualizar Impressão</button>
+      
       <card-slider
         v-for="(unit) in unitsToShow"
         :key="unit.id"
@@ -11,11 +14,27 @@
         :items-list="itemsList"
       />
     </div>
+    
   </div>
 </template>
 
 <script>
+import pdfMake from 'pdfmake/build/pdfmake'
+import pdfFonts from 'pdfmake/build/vfs_fonts'
+import { toString } from 'lodash'
+
 import CardSlider from './components/card-slider'
+import Impressao from './components/Impressao'
+import { tableLayoutBorderGray } from './components/Impressao/table-layout-border-gray'
+import { tableLayoutSubtitle } from './components/Impressao/table-layout-subtitle'
+import { tableLayoutMainContent } from './components/Impressao/table-layout-main-content'
+
+pdfMake.vfs = pdfFonts.pdfMake.vfs
+pdfMake.tableLayouts = {
+  tableBorderedGray: tableLayoutBorderGray,
+  tableSubtitle: tableLayoutSubtitle,
+  tableMainContent: tableLayoutMainContent
+}
 
 export default {
   components: {
@@ -44,7 +63,9 @@ export default {
       ],
       unitsToShow: [],
       rootEl: '',
-      loading: false
+      loading: false,
+      logoEgovUrl: toString(require('./assets/logo-egov.png')),
+      iconDownloadUrl: toString(require('./assets/download.png'))
     }    
   },
   created () {
@@ -89,7 +110,16 @@ export default {
         { id: 10, title: 'Décimo item', description: 'Décimo item' }
       ]
       this.itemsList = [...this.itemsList, ...newItems]
-    },    
+    },
+    async visualizarImpressao () {
+      const classeImpressao = new Impressao(
+        this.itemsList,
+        this.logoEgovUrl,
+        this.iconDownloadUrl
+      )
+      const documento = await classeImpressao.PreparaDocumento()
+      pdfMake.createPdf(documento).open({}, window.open('', '_blank'))
+    } 
   }
 }
 </script>
