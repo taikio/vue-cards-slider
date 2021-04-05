@@ -1,10 +1,12 @@
 
 export default class Impressao {
 
-  constructor (dadosParaImpressao, logoEgov, iconDownload) {
+  constructor (dadosParaImpressao, logoEgov, iconDownload, iconSucess, iconFail) {
     this.dadosParaImpressao = dadosParaImpressao
     this.logoEgov = logoEgov
     this.iconDownload = iconDownload
+    this.iconSucess = iconSucess
+    this.iconFail = iconFail
   }
 
   async PreparaDocumento () {
@@ -25,7 +27,14 @@ export default class Impressao {
         body: [                             
           [
             { text: 'Saída Agrotóxico', color: '#236069', fontSize: 14, alignment: 'left' },
-            { text: 'Gerar Log CSV', link: 'https://www.google.com', color: '#1A73DA', fontSize: 12, alignment: 'right' }
+            {
+              text: 'Gerar Log CSV',
+              link: 'https://www.google.com',
+              color: '#1A73DA',
+              fontSize: 12,
+              alignment: 'right',
+              decoration: 'underline'
+            }
           ]              
         ],
       },
@@ -104,6 +113,56 @@ export default class Impressao {
       },
     }
 
+    const tableTotalizadoresSucesso = {
+      margin: [0, 4, 0, 0],
+      border: [true, false, true, false],
+      layout: 'noBorders',
+      table: {
+        widths: ['70%', '30%'],
+        body: [                             
+          [
+            { image: this.iconSucess, height: 30, width: 50, margin: [0, 0, 0, 0] },
+            {
+              text: '31',
+              fontSize: 23,
+              alignment: 'right',
+              color: '#009533',
+              margin: [0, 0, 0, 0]
+            }
+          ],
+          [
+            { text: 'Sucesso', fontSize: 9, alignment: 'right', colSpan: 2},
+            {}
+          ]              
+        ],
+      },
+    }
+
+    const tableTotalizadoresFalha = {
+      margin: [0, 4, 0, 0],
+      border: [false, false, true, false],
+      layout: 'noBorders',
+      table: {
+        widths: ['70%', '30%'],
+        body: [                             
+          [
+            { image: this.iconFail, height: 30, width: 50, margin: [0, 0, 0, 0] },
+            {
+              text: '54',
+              fontSize: 23,
+              alignment: 'right',
+              color: '#E73434',
+              margin: [0, 0, 0, 0]
+            }
+          ],
+          [
+            { text: 'Falha', fontSize: 9, alignment: 'right', colSpan: 2},
+            {}
+          ]            
+        ],
+      },
+    }
+
     const tableTotalizadores = {
       margin: [8, 0, 0, 0],
       layout: 'tableBorderedGray',
@@ -122,38 +181,8 @@ export default class Impressao {
             {}
           ],
           [
-            {
-              text: 'Sucesso',
-              fontSize: 9,
-              alignment: 'left',
-              border: [true, false, true, false],
-              margin: [0, 6, 0, 0]
-            },
-            {
-              text: 'Falha',
-              fontSize: 9,
-              alignment: 'left',
-              border: [false, false, true, false],
-              margin: [0, 6, 0, 0]
-            }
-          ],
-          [
-            {
-              text: '31',
-              fontSize: 23,
-              alignment: 'right',
-              color: '#009533',
-              border: [true, false, true, false],
-              margin: [0, 6, 0, 0]
-            },
-            {
-              text: '54',
-              fontSize: 23,
-              alignment: 'right',
-              color: '#E73434',
-              border: [false, false, true, false],
-              margin: [0, 6, 0, 0]
-            }
+            tableTotalizadoresSucesso,
+            tableTotalizadoresFalha
           ],
           [
             {
@@ -222,7 +251,7 @@ export default class Impressao {
         { text: item.title, fontSize: 10 },
         { text: item.description, fontSize: 10 },
         { text: index < 3 ? 'Falha' : 'Sucesso', fontSize: 10, color: index < 3 ? '#C62222' : '#006322' },
-        { image: this.iconDownload, height: 18, width: 18, link: 'https://www.google.com/' }
+        { image: this.iconDownload, height: 19, width: 19, link: 'https://www.google.com/' }
       ])
     }
 
@@ -267,6 +296,9 @@ export default class Impressao {
       content: _corpoDocumento,
       footer(_currentPage, _pageCount) {
         return {};
+      },
+      defaultStyle: {
+        color: '#4B4B4B'
       },
       styles: {
         reportName: {

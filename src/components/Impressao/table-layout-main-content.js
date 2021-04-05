@@ -32,6 +32,6 @@
     return i === 0 ? 8 : 6;
   },
   paddingBottom(i, node) {
-    return i === 0 ? 8 : 4;
+    return i === 0 ? 8 : 6;
   },
 };

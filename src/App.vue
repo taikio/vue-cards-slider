@@ -65,7 +65,9 @@ export default {
       rootEl: '',
       loading: false,
       logoEgovUrl: toString(require('./assets/logo-egov.png')),
-      iconDownloadUrl: toString(require('./assets/download.png'))
+      iconDownloadUrl: toString(require('./assets/download.png')),
+      iconSucess: toString(require('./assets/Sucesso.png')),
+      iconFail: toString(require('./assets/Falha.png'))
     }    
   },
   created () {
@@ -115,7 +117,9 @@ export default {
       const classeImpressao = new Impressao(
         this.itemsList,
         this.logoEgovUrl,
-        this.iconDownloadUrl
+        this.iconDownloadUrl,
+        this.iconSucess,
+        this.iconFail
       )
       const documento = await classeImpressao.PreparaDocumento()
       pdfMake.createPdf(documento).open({}, window.open('', '_blank'))
